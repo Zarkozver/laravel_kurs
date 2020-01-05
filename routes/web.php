@@ -2,6 +2,12 @@
 
 use App\Post;
 use App\User;
+use App\Role;
+use App\Photo;
+use App\Country;
+use App\Video;
+use App\Tag;
+use Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -119,14 +125,98 @@ Route::resource('posts','PostsController');
 
 // });
 
-Route::get('/forcedelete',function(){
-    Post::where('id',3)->forceDelete();
-});
+// Route::get('/forcedelete',function(){
+//     Post::where('id',3)->forceDelete();
+// });
 
 
 
-Route::get('/user/{id}/post',function($id){
+// Route::get('/user/{id}/post',function($id){
 
-    return User::find(2)->post->title;
+//     return User::find(2)->post->content;
 
+// });
+
+// Route::get('/user/{id}/role', function($id){
+
+//     $user = User::find($id);
+
+//     foreach($user->roles as $role){
+//         return $role->name;
+//     }
+
+    
+// });
+
+// Route::get('/roles/{id}/user', function($id){
+//     $roles =  Role::find($id);
+
+//     foreach($roles->users as $user){
+//         return $user->name;
+//     }
+// });
+
+// Route::get('/user/pivot', function(){
+//     $user = User::find(1);
+
+//     foreach($user->roles as $role){
+//         echo $role->pivot;
+//     }
+
+// });
+
+// Route::get('/user/country', function(){
+//     $country =  Country::find(1);
+//     echo $country->posts->name;
+// });
+
+// Route::get('user/photo/{id}', function ($id) {
+//     $user = Post::find($id);
+//     foreach ($user->photos as $photo){
+//         echo $photo->path ."<br>";
+//     }
+// });
+
+// Route::get('users/{id}/photo', function ($id) {
+//     $user = Photo::find($id);
+//     echo $user->imageable;
+// });
+
+// Route::get('users/{id}/tag', function ($id) {
+//     $user = Video::find($id);
+//     foreach($user->tags as $tag){
+//         echo $tag->name;
+//     }
+// });
+
+// Route::get('/tag/post', function () {
+//     $tag = Tag::find(2);
+//    // return $tag;
+//     foreach($tag->posts as $post){
+//         echo $post->title;
+//     }
+// });
+Route::group(['middleware' => ['web']], function () {
+    Route::resource('/posts', 'PostsController');
+    
+    Route::get('/time', function () {
+        $time = new DateTime();
+        echo Carbon::now();
+    });
+
+    Route::get('/getname', function () {
+        $user = User::findOrFail(1);
+        echo $user->name;
+    });
+    Route::get('/setname/{name}', function ($name) {
+        $user = User::findOrFail(1);
+        $user->name = $name;
+        $user->save();
+    });
+    Route::get('/users/names', function () {
+        $users = User::latest();
+        foreach($users as $user){
+            echo $user->name."<br>";
+        }
+    });
 });

@@ -43,4 +43,22 @@ class User extends Authenticatable
         return $this->hasOne('App\Post','id');
 
     }
+
+    protected function roles(){
+        return $this->belongsToMany('App\Role');
+    }
+
+    protected function photos(){
+        return $this->morphMany('App\Photo','imageable');
+    }
+
+    public function getNameAttribute($data){
+        return ucfirst($data);
+    }
+    public function setNameAttribute($data){
+        $this->attributes['name'] = strtoupper($data); 
+    }
+    public static function scopeLatest($query){
+        return $query->orderBy('id','desc')->get();
+    }
 }
