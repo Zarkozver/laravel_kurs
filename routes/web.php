@@ -219,4 +219,8 @@ Route::group(['middleware' => ['web']], function () {
             echo $user->name."<br>";
         }
     });
+
+    Route::get('/drmex', function () {
+        return "drmex route";
+    });
 });
