@@ -139,7 +139,7 @@ Route::resource('posts','PostsController');
 
 // Route::get('/user/{id}/role', function($id){
 
-//     $user = User::find($id);
+//     $user = User::find($id);dsds
 
 //     foreach($user->roles as $role){
 //         return $role->name;
